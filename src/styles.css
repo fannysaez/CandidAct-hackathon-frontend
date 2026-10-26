@@ -6,3 +6,10 @@
     --color-alabaster-grey: #E0E1E4; 
     --color-white: #FFFFFF;
 }
+
+h1, h2, h3, .title {
+  font-family: 'Fredoka One', cursive;
+}
+body {
+  font-family: 'Lato', sans-serif;
+}
