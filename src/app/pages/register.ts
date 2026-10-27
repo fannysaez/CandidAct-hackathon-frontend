@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { AuthHeader } from './auth-header';
 
 @Component({
   selector: 'app-register',
-  imports: [FormsModule, RouterLink],
-  templateUrl: './register.html'
+  imports: [FormsModule, AuthHeader],
+  templateUrl: './register.html',
 })
 export class Register {
   user = { firstname: '', lastname: '', email: '', password: '' };
@@ -18,7 +19,7 @@ export class Register {
     this.errors = [];
     this.auth.register(this.user).subscribe({
       next: () => this.router.navigateByUrl('/login'),
-      error: (e: any) => (this.errors = e.error?.errors ?? ['Erreur serveur'])
+      error: (e: any) => (this.errors = e.error?.errors ?? ['Erreur serveur']),
     });
   }
 }
