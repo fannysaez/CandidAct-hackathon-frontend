@@ -1,0 +1,29 @@
+<div class="min-vh-100" style="background: var(--color-alabaster-grey)">
+  <app-auth-header link="/login" label="Se connecter" />
+
+  <main class="container py-5">
+    <form class="col-12 col-sm-8 col-md-5 col-lg-4 mx-auto" (ngSubmit)="submit()">
+      <h1 class="h3 fw-bolder text-center mb-4" style="color: var(--color-sea-green)">Inscrivez-vous</h1>
+
+      @for (error of errors; track error) {
+        <div class="alert alert-danger">{{ error }}</div>
+      }
+
+      <label class="form-label fw-bold" for="firstname">Prénom</label>
+      <input id="firstname" class="form-control mb-3" style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem" name="firstname" [(ngModel)]="user.firstname" required />
+
+      <label class="form-label fw-bold" for="lastname">Nom</label>
+      <input id="lastname" class="form-control mb-3" style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem" name="lastname" [(ngModel)]="user.lastname" required />
+
+      <label class="form-label fw-bold" for="email">Email</label>
+      <input id="email" class="form-control mb-3" style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem" type="email" name="email" [(ngModel)]="user.email" required />
+
+      <label class="form-label fw-bold" for="password">Mot de passe</label>
+      <input id="password" class="form-control mb-4" style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem" type="password" name="password" [(ngModel)]="user.password" required minlength="8" />
+
+      <div class="text-center">
+        <button class="btn px-5 fw-bold" style="background: var(--color-french-blue); color: var(--color-white); border-radius: 0.6rem" type="submit">Créer mon compte</button>
+      </div>
+    </form>
+  </main>
+</div>

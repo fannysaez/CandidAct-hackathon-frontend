@@ -1,0 +1,10 @@
+{
+  "/api": {
+    "target": "http://backend:80",
+    "secure": false
+  },
+  "/auth": {
+    "target": "http://backend:80",
+    "secure": false
+  }
+}

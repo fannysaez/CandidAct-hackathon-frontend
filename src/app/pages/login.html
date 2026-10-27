@@ -1,0 +1,23 @@
+<div class="min-vh-100" style="background: var(--color-alabaster-grey)">
+  <app-auth-header link="/register" label="S'inscrire" />
+
+  <main class="container py-5 mt-5">
+    <form class="col-12 col-sm-8 col-md-5 col-lg-4 mx-auto" (ngSubmit)="submit()">
+      <h1 class="h3 text-center mb-4" style="color: var(--color-sea-green)">Connectez-vous</h1>
+
+      @if (error) {
+        <div class="alert alert-danger">{{ error }}</div>
+      }
+
+      <label class="form-label fw-bold" for="email">Email</label>
+      <input id="email" class="form-control mb-3" style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem" type="email" name="email" [(ngModel)]="credentials.email" required />
+
+      <label class="form-label fw-bold" for="password">Mot de passe</label>
+      <input id="password" class="form-control mb-4" style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem" type="password" name="password" [(ngModel)]="credentials.password" required />
+
+      <div class="text-center">
+        <button class="btn px-5 fw-bold" style="background: var(--color-french-blue); color: var(--color-white); border-radius: 0.6rem" type="submit">Connexion</button>
+      </div>
+    </form>
+  </main>
+</div>
