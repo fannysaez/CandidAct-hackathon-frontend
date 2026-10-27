@@ -6,8 +6,13 @@ import { tap } from 'rxjs';
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  register(data: { firstname: string; lastname: string; email: string; password: string }) {
-    return this.http.post('/api/register', data);
+    register(data: { firstname: string; lastname: string; email: string; password: string }) {
+    return this.http.post('/api/register', {
+      firstname: data.firstname,
+      lastname: data.lastname,
+      email: data.email,
+      plainPassword: data.password,
+    });
   }
 
   login(email: string, password: string) {

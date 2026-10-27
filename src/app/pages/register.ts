@@ -19,7 +19,11 @@ export class Register {
     this.errors = [];
     this.auth.register(this.user).subscribe({
       next: () => this.router.navigateByUrl('/login'),
-      error: (e: any) => (this.errors = e.error?.errors ?? ['Erreur serveur']),
+            error: (e: any) =>
+        (this.errors =
+          e.error?.violations?.map((v: any) => v.message) ??
+          e.error?.errors ??
+          ['Erreur serveur']),
     });
   }
 }
