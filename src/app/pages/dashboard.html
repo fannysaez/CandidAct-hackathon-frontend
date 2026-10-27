@@ -1,10 +1,14 @@
 <div class="min-vh-100" style="background: var(--color-alabaster-grey)">
   <header class="d-flex justify-content-between align-items-center bg-white px-4 py-2">
     <span class="fw-semibold">Candid'Act</span>
-    <button class="btn btn-sm fw-bold" style="border: 1.5px solid var(--color-french-blue); color: var(--color-french-blue)" (click)="logout()">Déconnexion</button>
+    <button class="btn btn-sm fw-bold"
+      style="border: 1.5px solid var(--color-french-blue); color: var(--color-french-blue)"
+      (click)="logout()">Déconnexion</button>
   </header>
 
   <main class="container py-5">
     <h1 class="h3" style="color: var(--color-sea-green)">Dashboard</h1>
   </main>
+
+  <app-application-search></app-application-search>
 </div>
