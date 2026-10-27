@@ -9,7 +9,7 @@
 </header>
 
 <div class="min-vh-100 py-4" style="background: var(--color-alabaster-grey)">
-  <div class="container">
+  <div class="container" style="max-width: 720px">
     @if (loading) {
       <div class="text-center py-5">
         <div class="spinner-border" role="status"></div>
@@ -24,44 +24,21 @@
         </a>
       </div>
     } @else {
-      <div class="d-none d-md-block bg-white rounded-3 p-3">
-        <table class="table table-hover align-middle mb-0">
-          <thead>
-            <tr>
-              <th>Entreprise</th>
-              <th>Poste</th>
-              <th>Statut</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (a of pagedApplications; track a.id) {
-              <tr role="button" [routerLink]="['/applications', a.id]">
-                <td class="fw-bold">{{ a.company }}</td>
-                <td>{{ a.jobTitle }}</td>
-                <td><span class="badge rounded-pill" style="background: var(--color-sea-green)">{{ statusLabel(a.status) }}</span></td>
-                <td>{{ a.applyDate | date: 'dd/MM/yyyy' }}</td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-
-      <div class="d-md-none">
-        @for (a of pagedApplications; track a.id) {
-          <a
-            class="d-flex justify-content-between align-items-center bg-white rounded-3 p-3 mb-3 text-decoration-none text-reset"
-            [routerLink]="['/applications', a.id]"
-          >
-            <div>
-              <div class="fw-bold">{{ a.jobTitle }}</div>
-              <div class="text-muted">{{ a.company }}</div>
-              <small class="text-muted">{{ a.applyDate | date: 'dd/MM/yyyy' }}</small>
-            </div>
-            <span class="badge rounded-pill" style="background: var(--color-sea-green)">{{ statusLabel(a.status) }}</span>
-          </a>
-        }
-      </div>
+      @for (a of pagedApplications; track a.id) {
+        <a
+          class="d-flex justify-content-between bg-white rounded-3 px-4 py-3 mb-3 text-decoration-none text-reset"
+          [routerLink]="['/applications', a.id]"
+        >
+          <div class="d-flex flex-column justify-content-center">
+            <div class="fs-5 fw-bold">{{ a.jobTitle }}</div>
+            <small class="fw-bold text-black-50">{{ a.company }}</small>
+          </div>
+          <div class="d-flex flex-column justify-content-between align-items-end">
+            <span class="badge rounded-pill px-3" style="background: var(--color-sea-green)">{{ a.status }}</span>
+            <small class="text-muted">{{ a.applyDate | date: 'dd/MM/yyyy' }}</small>
+          </div>
+        </a>
+      }
 
       @if (totalPages > 1) {
         <nav class="mt-3">

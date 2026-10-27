@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { Application, STATUSES } from '../application';
+import { Application } from '../application';
 import { ApplicationService } from '../application.service';
 import { AuthService } from '../auth.service';
 
@@ -48,10 +48,6 @@ export class Dashboard {
   get pagedApplications(): Application[] {
     const start = (this.page - 1) * this.pageSize;
     return this.applications.slice(start, start + this.pageSize);
-  }
-
-  statusLabel(status: string): string {
-    return STATUSES[status] ?? status;
   }
 
   logout(): void {
