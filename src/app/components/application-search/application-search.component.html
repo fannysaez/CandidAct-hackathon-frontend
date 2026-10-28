@@ -1,29 +1,17 @@
-<div>
-    <input id="application-search" type="search" [(ngModel)]="searchTerm" (ngModelChange)="onSearch($event)" />
-</div>
+<input
+  id="application-search"
+  type="search"
+  class="form-control mb-3"
+  style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem"
+  placeholder="Rechercher une candidature"
+  [(ngModel)]="searchTerm"
+  (ngModelChange)="onSearch($event)"
+/>
 
 @if (loading) {
-<p>Recherche en cours...</p>
+  <p>Recherche en cours...</p>
 }
 
 @if (error) {
-<p>{{ error }}</p>
-}
-
-@if (!loading && applications.length > 0) {
-<ul>
-    @for (application of applications; track application.id) {
-    <li>
-        <strong>{{ application.label }}</strong>
-
-        @if (application.company) {
-        <span> — {{ application.company.name }}</span>
-        }
-    </li>
-    }
-</ul>
-}
-
-@if (!loading && !error && applications.length === 0 && searchTerm.trim()) {
-<p>Aucune candidature trouvée.</p>
+  <p>{{ error }}</p>
 }

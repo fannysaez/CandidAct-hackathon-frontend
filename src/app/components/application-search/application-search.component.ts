@@ -1,5 +1,4 @@
-
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subject, of } from 'rxjs';
 import {
@@ -9,7 +8,7 @@ import {
   catchError
 } from 'rxjs/operators';
 
-import { Application } from '../../types/application';
+import { Application } from '../../application';
 import { ApplicationSearchService } from '../../services/application-search.service';
 
 @Component({
@@ -21,6 +20,8 @@ import { ApplicationSearchService } from '../../services/application-search.serv
 export class ApplicationSearchComponent {
   private applicationService = inject(ApplicationSearchService);
   private searchTerms = new Subject<string>();
+
+  results = output<Application[] | null>();
 
   searchTerm = '';
   applications: Application[] = [];
@@ -51,6 +52,7 @@ export class ApplicationSearchComponent {
     ).subscribe(applications => {
       this.applications = applications;
       this.loading = false;
+      this.results.emit(this.searchTerm.trim() ? applications : null);
     });
   }
 

@@ -17,6 +17,7 @@ export class Dashboard {
   private router = inject(Router);
 
   applications: Application[] = [];
+  searchResults: Application[] | null = null;
   loading = true;
   error = false;
   page = 1;
@@ -38,8 +39,12 @@ export class Dashboard {
     });
   }
 
+  get displayed(): Application[] {
+    return this.searchResults ?? this.applications;
+  }
+
   get totalPages(): number {
-    return Math.ceil(this.applications.length / this.pageSize);
+    return Math.ceil(this.displayed.length / this.pageSize);
   }
 
   get pages(): number[] {
@@ -48,7 +53,12 @@ export class Dashboard {
 
   get pagedApplications(): Application[] {
     const start = (this.page - 1) * this.pageSize;
-    return this.applications.slice(start, start + this.pageSize);
+    return this.displayed.slice(start, start + this.pageSize);
+  }
+
+  onResults(results: Application[] | null): void {
+    this.searchResults = results;
+    this.page = 1;
   }
 
   logout(): void {

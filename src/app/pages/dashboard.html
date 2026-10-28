@@ -8,10 +8,9 @@
   </button>
 </header>
 
-<app-application-search></app-application-search>
-
 <div class="min-vh-100 py-4" style="background: var(--color-alabaster-grey)">
   <div class="container" style="max-width: 720px">
+    <app-application-search (results)="onResults($event)"></app-application-search>
     @if (loading) {
       <div class="text-center py-5">
         <div class="spinner-border" role="status"></div>
@@ -40,6 +39,8 @@
             <small class="text-muted">{{ a.applyDate | date: 'dd/MM/yyyy' }}</small>
           </div>
         </a>
+      } @empty {
+        <p class="text-center">Aucune candidature trouvée.</p>
       }
 
       @if (totalPages > 1) {
