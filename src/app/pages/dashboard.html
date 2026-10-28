@@ -42,7 +42,9 @@
 
       @if (totalPages > 1) {
         <nav class="mt-3">
-          <ul class="pagination justify-content-center">
+          <ul
+            class="pagination justify-content-center"
+            style="--bs-pagination-color: var(--color-french-blue); --bs-pagination-active-bg: var(--color-french-blue); --bs-pagination-active-border-color: var(--color-french-blue)">
             <li class="page-item" [class.disabled]="page === 1">
               <button class="page-link" (click)="page = page - 1">Précédent</button>
             </li>
