@@ -11,5 +11,5 @@ import { Application, Offer } from '../../types/application';
 export class OfferCardComponent {
   private service = inject(ApplicationDetailsService);
   application = input.required<Application>();
-  offer = input.required<Offer>();
+  offer = input<Offer>();
 }

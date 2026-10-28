@@ -5,6 +5,10 @@ export interface Application {
     description: string | null;
     company: Company;
     offer: Offer | null;
+    applicationMethod: string | null;
+    status: Status | null;
+    reminders?: Reminder[];
+    applicationStatus?: ApplicationStatus[];
 }
 
 export interface Company {
@@ -14,7 +18,7 @@ export interface Company {
 }
 
 export interface Offer {
-    id: number,
+    id?: number,
     jobTitle: string,
     description: string,
     contractType: string,
@@ -28,9 +32,14 @@ export interface Status {
     label: string
 }
 
-export interface StatusApplication {
+export interface ApplicationStatus {
     id: number,
     updateDate: Date,
-    application: Application,
     status: Status
+}
+
+export interface Reminder {
+    id: number,
+    label: string;
+    date: Date,
 }
