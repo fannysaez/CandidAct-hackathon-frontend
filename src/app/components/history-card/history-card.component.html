@@ -1,24 +1,20 @@
-<div class="container my-4">
-    <!-- Bloc Historique -->
-    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
-        <h3 class="h6 fw-bold mb-4" style="color: var(--color-french-blue); letter-spacing: 0.5px;">
-            HISTORIQUE
-        </h3>
+<div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+  <p class="small fw-bold text-uppercase mb-4" style="color: var(--color-french-blue)">Historique</p>
 
-        <!-- Timeline / Chronologie -->
-        <div class="timeline position-relative ps-4">
-            <ul class="list-unstyled mb-0">
-                <!-- On parcourt la collection des statuts -->
-                @for (applicationStatus of application.applicationsStatus; track applicationStatus.id) {
-                <li class="py-1">
-                    <i class="bi bi-pin-angle-fill"></i>
-                    {{ applicationStatus.status.label }} le {{ applicationStatus.updateDate | date:'dd/MM/yyyy' }}
-                </li>
-                } @empty {
-                <!-- Optionnel : affiché s'il n'y a aucun rappel -->
-                <li class="text-muted">Aucun statut pour le moment</li>
-                }
-            </ul>
-        </div>
-    </div>
+  <ul class="list-unstyled mb-0 ms-1">
+    @for (item of history(); track item.id; let i = $index) {
+    <li class="position-relative ps-4 pb-4 border-start" style="border-color: var(--color-alabaster-grey) !important">
+      <span class="position-absolute top-0 start-0 translate-middle rounded-circle"
+        style="width: 10px; height: 10px"
+        [style.background]="i === 0 ? 'var(--color-french-blue)' : i === 1 ? 'var(--color-sea-green)' : 'var(--color-alabaster-grey)'">
+      </span>
+      <div class="small fw-bold" [style.color]="i === 0 ? 'var(--color-french-blue)' : i === 1 ? 'var(--color-black)' : 'var(--color-alabaster-grey)'">
+        {{ item.status.label }}
+      </div>
+      <div class="small text-black-50">{{ item.updateDate | date:'dd/MM/yyyy' }}</div>
+    </li>
+    } @empty {
+    <li class="text-black-50 small">Aucun statut pour le moment</li>
+    }
+  </ul>
 </div>

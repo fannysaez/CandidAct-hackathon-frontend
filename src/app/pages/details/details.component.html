@@ -1,38 +1,52 @@
-<app-auth-header />
-<div class="container-fluid p-3" style="background: var(--color-alabaster-grey)">
-    <div class="row justify-content-between">
-        <app-application-card />
+<div class="min-vh-100 bg-light pb-5">
+  <header class="bg-white border-bottom d-flex flex-wrap justify-content-between align-items-center gap-2 px-4 py-2">
+    <div class="d-flex align-items-center gap-3">
+      <img src="/logo.png" alt="Candid'Act" height="28" />
+      <span class="border-start ps-3 small">
+        <a routerLink="/dashboard" class="text-decoration-none text-black-50">Candidatures</a>
+        <span class="text-black-50"> / </span>
+        <span class="fw-bold">{{ application()?.offer?.jobTitle ?? application()?.label }}</span>
+      </span>
     </div>
-    <div class="d-md-none">
-        <app-informations-card />
+    <div class="d-flex gap-2">
+      <button type="button" class="btn btn-sm px-4 rounded-3 fw-bold"
+        style="color: var(--color-french-blue); border: 1.5px solid var(--color-french-blue)">
+        Modifier
+      </button>
+      <button type="button" class="btn btn-sm px-4 rounded-3 fw-bold"
+        style="color: var(--color-white); background: var(--color-french-blue)">
+        Changer le statut
+      </button>
     </div>
-    <div class="row justify-content-between">
-        <app-offer-card />
-    </div>
-    <div class="row d-none d-md-flex mx-5 justify-content-between">
-        <div class="col-6">
-            <app-informations-card />
-        </div>
-        <div class="col-6">
-            <app-history-card />
-        </div>
-    </div>
-    <div class="d-md-none">
-        <app-history-card />
-    </div>
-    <div class="bg-white py-4 px-2 shadow-sm">
-        <div class="container d-flex justify-content-center align-items-center gap-3">
+  </header>
 
-            <button type="button" class="col-5 btn  px-4 py-2 m-2 rounded-3 fw-bold"
-                style="color: var(--color-french-blue); border: 2px solid var(--color-french-blue)">
-                Modifier
-            </button>
-
-            <button type="button" class="col-5 btn px-4 py-2 m-2 rounded-3 fw-bold"
-                style="color: white; background: var(--color-french-blue)">
-                Changer le statut
-            </button>
-
-        </div>
+  @if (application(); as app) {
+  <main class="container py-4">
+    <div class="row g-4">
+      <div class="col-12 col-lg-8">
+        <app-application-card [application]="app" />
+        @if (app.offer) {
+        <app-offer-card [application]="app" [offer]="app.offer" />
+        }
+      </div>
+      <div class="col-12 col-lg-4">
+        <app-informations-card [application]="app" />
+      </div>
+      <div class="col-12">
+        <app-history-card [application]="app" />
+      </div>
     </div>
+  </main>
+
+  @if (app.reminders && app.reminders.length > 0) {
+  <div class="fixed-bottom d-flex justify-content-center pb-3">
+    <span class="rounded-3 px-5 py-3 fw-bold"
+      style="background: rgba(24, 179, 166, 0.3); color: var(--color-sea-green)">
+      <i class="bi bi-pin-angle me-2"></i>Relancer le {{ app.reminders[0].date | date:'dd/MM/yyyy' }}
+    </span>
+  </div>
+  }
+  } @else if (application() === null) {
+  <p class="text-center py-5">Candidature introuvable.</p>
+  }
 </div>

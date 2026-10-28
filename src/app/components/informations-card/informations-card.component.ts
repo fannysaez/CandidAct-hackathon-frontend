@@ -1,11 +1,11 @@
 import { Component, input, inject } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { ApplicationDetailsService } from '../../services/application-details.service';
 import { Application } from '../../types/application';
 
-
 @Component({
   selector: 'app-informations-card',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './informations-card.component.html',
   styleUrl: './informations-card.component.css'
 })

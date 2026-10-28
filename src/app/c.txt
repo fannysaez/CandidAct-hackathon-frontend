@@ -1,0 +1,1202 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+components/
+  application-card/
+    application-card.component.css
+    application-card.component.html
+    application-card.component.spec.ts
+    application-card.component.ts
+  application-search/
+    application-search.component.css
+    application-search.component.html
+    application-search.component.spec.ts
+    application-search.component.ts
+  history-card/
+    history-card.component.css
+    history-card.component.html
+    history-card.component.spec.ts
+    history-card.component.ts
+  informations-card/
+    informations-card.component.css
+    informations-card.component.html
+    informations-card.component.spec.ts
+    informations-card.component.ts
+  offer-card/
+    offer-card.component.css
+    offer-card.component.html
+    offer-card.component.spec.ts
+    offer-card.component.ts
+pages/
+  details/
+    details.component.css
+    details.component.html
+    details.component.spec.ts
+    details.component.ts
+  auth-header.html
+  auth-header.ts
+  dashboard.html
+  dashboard.ts
+  login.html
+  login.ts
+  register.html
+  register.ts
+services/
+  application-details.service.spec.ts
+  application-details.service.ts
+  application-search.service.spec.ts
+  application-search.service.ts
+types/
+  application.ts
+app.component.html
+app.component.ts
+app.config.ts
+app.routes.ts
+application.service.ts
+application.ts
+auth.guard.ts
+auth.interceptor.ts
+auth.service.ts
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="components/application-card/application-card.component.css">
+
+</file>
+
+<file path="components/application-card/application-card.component.html">
+<div class="container my-4">
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+            <div>
+                <h2 class="h4 fw-bold mb-1" style="color: var(--color-black);">{{ application().label }}</h2>
+                <p class="text-muted mb-3" style="font-size: 0.95rem;">{{ application().company.name }} . <span
+                        class="d-md-none">{{ application().company.city }}</span></p>
+            </div>
+            <div>
+                <span class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center gap-1"
+                    style="background-color: rgba(24, 179, 166, 0.25); color: var(--color-sea-green); font-weight: 500;">
+                    <ul class="list-unstyled mb-0">
+                        @for (reminder of application().reminders; track reminder.id) {
+                        <li class="py-1">
+                            <i class="bi bi-pin-angle-fill"></i>
+                            {{ reminder.label }} le {{ reminder.date | date:'dd/MM/yyyy' }}
+                        </li>
+                        } @empty {
+                        <li class="text-muted">Aucun rappel pour le moment</li>
+                        }
+                    </ul>
+                </span>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 mt-2">
+            <span class="badge rounded-pill px-3 py-2"
+                style="background-color: var(--color-alabaster-grey); color: var(--color-black); font-weight: 600;">
+                {{ application().offer?.contractType }}
+            </span>
+            <span class="d-none d-md-block badge rounded-pill px-3 py-2"
+                style="background-color: var(--color-french-blue); color: var(--color-white); font-weight: 600;">
+                {{ application().company.city }}
+            </span>
+            <span class="badge rounded-pill px-3 py-2 text-white"
+                style="background-color: var(--color-sea-green); font-weight: 600;">
+                {{ application().status }}
+            </span>
+        </div>
+    </div>
+</div>
+</file>
+
+<file path="components/application-card/application-card.component.spec.ts">
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { ApplicationCardComponent } from './application-card.component';
+
+describe('ApplicationCardComponent', () => {
+  let component: ApplicationCardComponent;
+  let fixture: ComponentFixture<ApplicationCardComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ApplicationCardComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(ApplicationCardComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+</file>
+
+<file path="components/application-card/application-card.component.ts">
+import { Component, input, inject } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { ApplicationDetailsService } from '../../services/application-details.service';
+import { Application } from '../../types/application';
+
+@Component({
+  selector: 'app-application-card',
+  imports: [DatePipe],
+  templateUrl: './application-card.component.html',
+  styleUrl: './application-card.component.css'
+})
+export class ApplicationCardComponent {
+  private service = inject(ApplicationDetailsService);
+  application = input.required<Application>();
+}
+</file>
+
+<file path="components/application-search/application-search.component.css">
+
+</file>
+
+<file path="components/application-search/application-search.component.html">
+<input
+  id="application-search"
+  type="search"
+  class="form-control mb-3"
+  style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem"
+  placeholder="Rechercher une candidature"
+  [(ngModel)]="searchTerm"
+  (ngModelChange)="onSearch($event)"
+/>
+
+@if (loading) {
+  <p>Recherche en cours...</p>
+}
+
+@if (error) {
+  <p>{{ error }}</p>
+}
+</file>
+
+<file path="components/application-search/application-search.component.spec.ts">
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { ApplicationSearchComponent } from './application-search.component';
+
+describe('ApplicationSearchComponent', () => {
+  let component: ApplicationSearchComponent;
+  let fixture: ComponentFixture<ApplicationSearchComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ApplicationSearchComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(ApplicationSearchComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+</file>
+
+<file path="components/application-search/application-search.component.ts">
+import { Component, inject, output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Subject, of } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  catchError
+} from 'rxjs/operators';
+
+import { Application } from '../../application';
+import { ApplicationSearchService } from '../../services/application-search.service';
+
+@Component({
+  selector: 'app-application-search',
+  standalone: true,
+  imports: [FormsModule],
+  templateUrl: './application-search.component.html'
+})
+export class ApplicationSearchComponent {
+  private applicationService = inject(ApplicationSearchService);
+  private searchTerms = new Subject<string>();
+
+  results = output<Application[] | null>();
+
+  searchTerm = '';
+  applications: Application[] = [];
+  loading = false;
+  error = '';
+
+  constructor() {
+    this.searchTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(term => {
+        if (!term) {
+          this.loading = false;
+          this.error = '';
+          return of([]);
+        }
+
+        this.loading = true;
+        this.error = '';
+
+        return this.applicationService.searchApplications(term).pipe(
+          catchError(() => {
+            this.error = 'Pas de candidature correspondante';
+            return of([]);
+          })
+        );
+      })
+    ).subscribe(applications => {
+      this.applications = applications;
+      this.loading = false;
+      this.results.emit(this.searchTerm.trim() ? applications : null);
+    });
+  }
+
+  onSearch(term: string): void {
+    const value = term.trim();
+
+    if (!value) {
+      this.applications = [];
+      this.error = '';
+      this.loading = false;
+      this.searchTerms.next('');
+      return;
+    }
+
+    this.searchTerms.next(value);
+  }
+}
+</file>
+
+<file path="components/history-card/history-card.component.css">
+
+</file>
+
+<file path="components/history-card/history-card.component.html">
+<div class="container my-4">
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+        <h3 class="h6 fw-bold mb-4" style="color: var(--color-french-blue); letter-spacing: 0.5px;">
+            HISTORIQUE
+        </h3>
+
+        <div class="timeline position-relative ps-4">
+            <ul class="list-unstyled mb-0">
+                @for (applicationStatus of application().applicationsStatus; track applicationStatus.id) {
+                <li class="py-1">
+                    <i class="bi bi-pin-angle-fill"></i>
+                    {{ applicationStatus.status.label }} le {{ applicationStatus.updateDate | date:'dd/MM/yyyy' }}
+                </li>
+                } @empty {
+                <li class="text-muted">Aucun statut pour le moment</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+</file>
+
+<file path="components/history-card/history-card.component.spec.ts">
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { HistoryCardComponent } from './history-card.component';
+
+describe('HistoryCardComponent', () => {
+  let component: HistoryCardComponent;
+  let fixture: ComponentFixture<HistoryCardComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [HistoryCardComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(HistoryCardComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+</file>
+
+<file path="components/history-card/history-card.component.ts">
+import { Component, input, inject } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { ApplicationDetailsService } from '../../services/application-details.service';
+import { Application } from '../../types/application';
+
+@Component({
+  selector: 'app-history-card',
+  imports: [DatePipe],
+  templateUrl: './history-card.component.html',
+  styleUrl: './history-card.component.css'
+})
+export class HistoryCardComponent {
+  private service = inject(ApplicationDetailsService);
+  application = input.required<Application>();
+}
+</file>
+
+<file path="components/informations-card/informations-card.component.css">
+
+</file>
+
+<file path="components/informations-card/informations-card.component.html">
+<div class="container my-4">
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+        <h3 class="h6 fw-bold mb-4" style="color: var(--color-french-blue); letter-spacing: 0.5px;">INFORMATIONS</h3>
+
+        <div class="d-flex justify-content-between align-items-center py-2 border-bottom"
+            style="border-color: var(--color-alabaster-grey) !important;">
+            <span class="text-muted" style="font-size: 0.9rem;">Date de candidature</span>
+            <span class="fw-bold" style="color: var(--color-black)">{{ application().applyDate | date:'dd/MM/yyyy' }}</span>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center py-2 border-bottom"
+            style="border-color: var(--color-alabaster-grey) !important;">
+            <span class="text-muted" style="font-size: 0.9rem;">Méthode</span>
+            <span class="fw-bold" style="color: var(--color-black);">{{ application().applicationMethod || 'Non spécifiée' }}</span>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center pt-2">
+            <span class="text-muted" style="font-size: 0.9rem;">Expire le</span>
+            <span class="fw-bold" style="color: var(--color-black);">{{ (application().offer?.expirationDate | date:'dd/MM/yyyy') ?? 'Non définie' }}</span>
+        </div>
+    </div>
+</div>
+</file>
+
+<file path="components/informations-card/informations-card.component.spec.ts">
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { InformationsCardComponent } from './informations-card.component';
+
+describe('InformationsCardComponent', () => {
+  let component: InformationsCardComponent;
+  let fixture: ComponentFixture<InformationsCardComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [InformationsCardComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(InformationsCardComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+</file>
+
+<file path="components/informations-card/informations-card.component.ts">
+import { Component, input, inject } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { ApplicationDetailsService } from '../../services/application-details.service';
+import { Application } from '../../types/application';
+
+@Component({
+  selector: 'app-informations-card',
+  imports: [DatePipe],
+  templateUrl: './informations-card.component.html',
+  styleUrl: './informations-card.component.css'
+})
+export class InformationsCardComponent {
+  private service = inject(ApplicationDetailsService);
+  application = input.required<Application>();
+}
+</file>
+
+<file path="components/offer-card/offer-card.component.css">
+
+</file>
+
+<file path="components/offer-card/offer-card.component.html">
+<div class="container my-4">
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+        <h3 class="h6 fw-bold mb-4" style="color: var(--color-french-blue); letter-spacing: 0.5px;">DESCRIPTION DE
+            L’OFFRE</h3>
+        <div class="p-4 mb-3 text-start rounded-3"
+            style="background-color: #F8F9FA; border: 1.5px dashed var(--color-alabaster-grey);">
+            <p class="mb-0 text-dark" style="line-height: 1.6; font-size: 0.95rem;">
+                {{ application().offer?.description }}
+            </p>
+        </div>
+
+        <div class="text-center">
+            <a [href]="application().offer?.url" class="fw-bold text-decoration-none"
+                style="color: var(--color-sea-green); font-size: 0.95rem;">
+                Voir l’offre originale
+            </a>
+        </div>
+    </div>
+</div>
+</file>
+
+<file path="components/offer-card/offer-card.component.spec.ts">
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { OfferCardComponent } from './offer-card.component';
+
+describe('OfferCardComponent', () => {
+  let component: OfferCardComponent;
+  let fixture: ComponentFixture<OfferCardComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [OfferCardComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(OfferCardComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+</file>
+
+<file path="components/offer-card/offer-card.component.ts">
+import { Component, input, inject } from '@angular/core';
+import { ApplicationDetailsService } from '../../services/application-details.service';
+import { Application, Offer } from '../../types/application';
+
+@Component({
+  selector: 'app-offer-card',
+  imports: [],
+  templateUrl: './offer-card.component.html',
+  styleUrl: './offer-card.component.css'
+})
+export class OfferCardComponent {
+  private service = inject(ApplicationDetailsService);
+  application = input.required<Application>();
+  offer = input.required<Offer>();
+}
+</file>
+
+<file path="pages/details/details.component.css">
+
+</file>
+
+<file path="pages/details/details.component.html">
+<app-auth-header />
+@if (application(); as app) {
+<div class="container-fluid p-3" style="background: var(--color-alabaster-grey)">
+    <div class="row justify-content-between">
+        <app-application-card [application]="app" />
+    </div>
+    <div class="d-md-none">
+        <app-informations-card [application]="app" />
+    </div>
+    <div class="row justify-content-between">
+        @if (app.offer) {
+            <app-offer-card [application]="app" [offer]="app.offer" />
+        }
+    </div>
+    <div class="row d-none d-md-flex mx-5 justify-content-between">
+        <div class="col-6">
+            <app-informations-card [application]="app" />
+        </div>
+        <div class="col-6">
+            <app-history-card [application]="app" />
+        </div>
+    </div>
+    <div class="d-md-none">
+        <app-history-card [application]="app" />
+    </div>
+    <div class="bg-white py-4 px-2 shadow-sm">
+        <div class="container d-flex justify-content-center align-items-center gap-3">
+
+            <button type="button" class="col-5 btn  px-4 py-2 m-2 rounded-3 fw-bold"
+                style="color: var(--color-french-blue); border: 2px solid var(--color-french-blue)">
+                Modifier
+            </button>
+
+            <button type="button" class="col-5 btn px-4 py-2 m-2 rounded-3 fw-bold"
+                style="color: white; background: var(--color-french-blue)">
+                Changer le statut
+            </button>
+
+        </div>
+    </div>
+</div>
+}
+</file>
+
+<file path="pages/details/details.component.spec.ts">
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { DetailsComponent } from './details.component';
+
+describe('DetailsComponent', () => {
+  let component: DetailsComponent;
+  let fixture: ComponentFixture<DetailsComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [DetailsComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(DetailsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+</file>
+
+<file path="pages/details/details.component.ts">
+import { Component, inject } from '@angular/core';
+import { AuthHeader } from '../auth-header';
+import { HistoryCardComponent } from '../../components/history-card/history-card.component';
+import { OfferCardComponent } from '../../components/offer-card/offer-card.component';
+import { ApplicationCardComponent } from '../../components/application-card/application-card.component';
+import { InformationsCardComponent } from '../../components/informations-card/informations-card.component';
+import { ApplicationDetailsService } from '../../services/application-details.service';
+import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { switchMap } from 'rxjs';
+
+@Component({
+  selector: 'app-details',
+  imports: [AuthHeader, ApplicationCardComponent, OfferCardComponent, HistoryCardComponent, InformationsCardComponent],
+  templateUrl: './details.component.html',
+  styleUrl: './details.component.css'
+})
+export class DetailsComponent {
+  private service = inject(ApplicationDetailsService);
+  private route = inject(ActivatedRoute);
+
+  application = toSignal(
+    this.route.paramMap.pipe(
+      switchMap(params => {
+        const id = Number(params.get('id'));
+        return this.service.getApplicationById(id);
+      })
+    )
+  );
+}
+</file>
+
+<file path="pages/auth-header.html">
+<header class="d-flex justify-content-between align-items-center bg-white px-4 py-2">
+  <div class="d-flex align-items-center gap-2 small fw-semibold">
+    <img src="logo.png" alt="Candid'Act" height="28" />
+    <span>Candid'Act</span>
+  </div>
+  <a
+    class="btn btn-sm fw-bold"
+    style="border: 1.5px solid var(--color-french-blue); color: var(--color-french-blue)"
+    [routerLink]="link"
+  >{{ label }}</a>
+</header>
+</file>
+
+<file path="pages/auth-header.ts">
+import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-auth-header',
+  imports: [RouterLink],
+  templateUrl: './auth-header.html',
+})
+export class AuthHeader {
+  @Input() link = '';
+  @Input() label = '';
+}
+</file>
+
+<file path="pages/dashboard.html">
+<header class="bg-white d-flex justify-content-between align-items-center px-4 py-2">
+  <div class="d-flex align-items-center gap-3">
+    <img src="/logo.png" alt="Candid'Act" height="32" />
+    <span class="border-start ps-3 small">Tableau de bord</span>
+  </div>
+  <button type="button" class="btn px-4" style="background: var(--color-french-blue); color: var(--color-white)"
+    (click)="logout()">
+    Déconnexion
+  </button>
+</header>
+
+<div class="min-vh-100 py-4" style="background: var(--color-alabaster-grey)">
+  <div class="container" style="max-width: 720px">
+    <app-application-search (results)="onResults($event)"></app-application-search>
+    @if (loading) {
+    <div class="text-center py-5">
+      <div class="spinner-border" role="status"></div>
+    </div>
+    } @else if (error) {
+    <div class="alert alert-danger">Impossible de charger vos candidatures. Veuillez réessayer plus tard.</div>
+    } @else if (applications.length === 0) {
+    <div class="text-center py-5">
+      <h2 class="mb-4" style="color: var(--color-french-blue)">Bienvenue sur Candid'Act</h2>
+      <a class="btn" style="background: var(--color-french-blue); color: var(--color-white)"
+        routerLink="/applications/new">
+        Ajouter une candidature
+      </a>
+    </div>
+    } @else {
+    @for (a of pagedApplications; track a.id) {
+    <a class="d-flex justify-content-between bg-white rounded-3 px-4 py-3 mb-3 text-decoration-none text-reset"
+      [routerLink]="['/details', a.id]">
+      <div class="d-flex flex-column justify-content-center">
+        <div class="fs-5 fw-bold">{{ a.jobTitle }}</div>
+        <small class="fw-bold text-black-50">{{ a.company }}</small>
+      </div>
+      <div class="d-flex flex-column justify-content-between align-items-end">
+        <span class="badge rounded-pill px-3" style="background: var(--color-sea-green)">{{ a.status }}</span>
+        <small class="text-muted">{{ a.applyDate | date: 'dd/MM/yyyy' }}</small>
+      </div>
+    </a>
+    } @empty {
+    <p class="text-center">Aucune candidature trouvée.</p>
+    }
+
+    @if (totalPages > 1) {
+    <nav class="mt-3">
+      <ul class="pagination justify-content-center"
+        style="--bs-pagination-color: var(--color-french-blue); --bs-pagination-active-bg: var(--color-french-blue); --bs-pagination-active-border-color: var(--color-french-blue)">
+        <li class="page-item" [class.disabled]="page === 1">
+          <button class="page-link" (click)="page = page - 1">Précédent</button>
+        </li>
+        @for (p of pages; track p) {
+        <li class="page-item" [class.active]="p === page">
+          <button class="page-link" (click)="page = p">{{ p }}</button>
+        </li>
+        }
+        <li class="page-item" [class.disabled]="page === totalPages">
+          <button class="page-link" (click)="page = page + 1">Suivant</button>
+        </li>
+      </ul>
+    </nav>
+    }
+    }
+  </div>
+</div>
+</file>
+
+<file path="pages/dashboard.ts">
+import { Component, inject } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+import { Application } from '../application';
+import { ApplicationService } from '../application.service';
+import { AuthService } from '../auth.service';
+import { ApplicationSearchComponent } from '../components/application-search/application-search.component';
+
+@Component({
+  selector: 'app-dashboard',
+  imports: [RouterLink, DatePipe, ApplicationSearchComponent],
+  templateUrl: './dashboard.html',
+})
+export class Dashboard {
+  private service = inject(ApplicationService);
+  private auth = inject(AuthService);
+  private router = inject(Router);
+
+  applications: Application[] = [];
+  searchResults: Application[] | null = null;
+  loading = true;
+  error = false;
+  page = 1;
+  pageSize = 5;
+
+  constructor() {
+    this.service.getAll().subscribe({
+      next: (list) => {
+        this.applications = list;
+        this.loading = false;
+      },
+      error: (e) => {
+        if (e.status === 401) {
+          this.logout();
+        }
+        this.error = true;
+        this.loading = false;
+      },
+    });
+  }
+
+  get displayed(): Application[] {
+    return this.searchResults ?? this.applications;
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.displayed.length / this.pageSize);
+  }
+
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  get pagedApplications(): Application[] {
+    const start = (this.page - 1) * this.pageSize;
+    return this.displayed.slice(start, start + this.pageSize);
+  }
+
+  onResults(results: Application[] | null): void {
+    this.searchResults = results;
+    this.page = 1;
+  }
+
+  logout(): void {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
+
+  details(): void {
+    this.router.navigate(['/details/id']);
+  }
+}
+</file>
+
+<file path="pages/login.html">
+<div class="min-vh-100" style="background: var(--color-alabaster-grey)">
+  <app-auth-header link="/register" label="S'inscrire" />
+
+  <main class="container py-5 mt-5">
+    <form class="col-12 col-sm-8 col-md-5 col-lg-4 mx-auto" (ngSubmit)="submit()">
+      <h1 class="h3 text-center mb-4" style="color: var(--color-sea-green)">Connectez-vous</h1>
+
+      @if (error) {
+        <div class="alert alert-danger">{{ error }}</div>
+      }
+
+      <label class="form-label fw-bold" for="email">Email</label>
+      <input id="email" class="form-control mb-3" style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem" type="email" name="email" [(ngModel)]="credentials.email" required />
+
+      <label class="form-label fw-bold" for="password">Mot de passe</label>
+      <input id="password" class="form-control mb-4" style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem" type="password" name="password" [(ngModel)]="credentials.password" required />
+
+      <div class="text-center">
+        <button class="btn px-5 fw-bold" style="background: var(--color-french-blue); color: var(--color-white); border-radius: 0.6rem" type="submit">Connexion</button>
+      </div>
+    </form>
+  </main>
+</div>
+</file>
+
+<file path="pages/login.ts">
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
+import { AuthHeader } from './auth-header';
+
+@Component({
+  selector: 'app-login',
+  imports: [FormsModule, AuthHeader],
+  templateUrl: './login.html',
+})
+export class Login {
+  credentials = { email: '', password: '' };
+  error = '';
+
+  constructor(private auth: AuthService, private router: Router) {}
+
+  submit() {
+    this.error = '';
+    this.auth.login(this.credentials.email, this.credentials.password).subscribe({
+      next: () => this.router.navigateByUrl('/dashboard'),
+      error: () => (this.error = 'Identifiants incorrects'),
+    });
+  }
+}
+</file>
+
+<file path="pages/register.html">
+<div class="min-vh-100" style="background: var(--color-alabaster-grey)">
+  <app-auth-header link="/login" label="Se connecter" />
+
+  <main class="container py-5">
+    <form class="col-12 col-sm-8 col-md-5 col-lg-4 mx-auto" (ngSubmit)="submit()">
+      <h1 class="h3 fw-bolder text-center mb-4" style="color: var(--color-sea-green)">Inscrivez-vous</h1>
+
+      @for (error of errors; track error) {
+        <div class="alert alert-danger">{{ error }}</div>
+      }
+
+      <label class="form-label fw-bold" for="firstname">Prénom</label>
+      <input id="firstname" class="form-control mb-3" style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem" name="firstname" [(ngModel)]="user.firstname" required />
+
+      <label class="form-label fw-bold" for="lastname">Nom</label>
+      <input id="lastname" class="form-control mb-3" style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem" name="lastname" [(ngModel)]="user.lastname" required />
+
+      <label class="form-label fw-bold" for="email">Email</label>
+      <input id="email" class="form-control mb-3" style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem" type="email" name="email" [(ngModel)]="user.email" required />
+
+      <label class="form-label fw-bold" for="password">Mot de passe</label>
+      <input id="password" class="form-control mb-4" style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem" type="password" name="password" [(ngModel)]="user.password" required minlength="8" />
+
+      <div class="text-center">
+        <button class="btn px-5 fw-bold" style="background: var(--color-french-blue); color: var(--color-white); border-radius: 0.6rem" type="submit">Créer mon compte</button>
+      </div>
+    </form>
+  </main>
+</div>
+</file>
+
+<file path="pages/register.ts">
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
+import { AuthHeader } from './auth-header';
+
+@Component({
+  selector: 'app-register',
+  imports: [FormsModule, AuthHeader],
+  templateUrl: './register.html',
+})
+export class Register {
+  user = { firstname: '', lastname: '', email: '', password: '' };
+  errors: string[] = [];
+
+  constructor(private auth: AuthService, private router: Router) {}
+
+  submit() {
+    this.errors = [];
+    this.auth.register(this.user).subscribe({
+      next: () => this.router.navigateByUrl('/login'),
+            error: (e: any) =>
+        (this.errors =
+          e.error?.violations?.map((v: any) => v.message) ??
+          e.error?.errors ??
+          ['Erreur serveur']),
+    });
+  }
+}
+</file>
+
+<file path="services/application-details.service.spec.ts">
+import { TestBed } from '@angular/core/testing';
+
+import { ApplicationDetailsService } from './application-details.service';
+
+describe('ApplicationDetailsService', () => {
+  let service: ApplicationDetailsService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(ApplicationDetailsService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+</file>
+
+<file path="services/application-details.service.ts">
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Application } from '../types/application';
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class ApplicationDetailsService {
+  private http = inject(HttpClient);
+  private apiUrl = '/api/applications';
+
+  getApplicationById(id: number): Observable<Application> {
+    return this.http.get<Application>(`${this.apiUrl}/${id}`);
+  }
+
+}
+</file>
+
+<file path="services/application-search.service.spec.ts">
+import { TestBed } from '@angular/core/testing';
+
+import { ApplicationSearchService } from './application-search.service';
+
+describe('ApplicationSearchService', () => {
+  let service: ApplicationSearchService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(ApplicationSearchService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+});
+</file>
+
+<file path="services/application-search.service.ts">
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Application } from '../application';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApplicationSearchService {
+  private http = inject(HttpClient);
+  private readonly apiUrl = '/api/applications';
+
+  searchApplications(term: string): Observable<Application[]> {
+    const params = new HttpParams().set('search', term);
+
+    return this.http.get<Application[]>(this.apiUrl, { params });
+  }
+}
+</file>
+
+<file path="types/application.ts">
+export interface Application {
+    id: number;
+    label: string;
+    applyDate: string;
+    description: string | null;
+    company: Company;
+    offer: Offer | null;
+    applicationMethod: string | null;
+    status: string | null;
+    reminders?: Reminder[];
+    applicationsStatus?: ApplicationStatus[];
+}
+
+export interface Company {
+    id?: number;
+    name: string;
+    city: string;
+}
+
+export interface Offer {
+    id?: number;
+    jobTitle: string;
+    description: string;
+    contractType: string | null;
+    publicationDate: string;
+    expirationDate: string | null;
+    url?: string | null;
+}
+
+export interface Reminder {
+    id: number;
+    label: string;
+    date: string;
+}
+
+export interface ApplicationStatus {
+    id: number;
+    updateDate: string;
+    status: { label: string };
+}
+</file>
+
+<file path="app.component.html">
+<router-outlet/>
+</file>
+
+<file path="app.component.ts">
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
+})
+export class AppComponent {}
+</file>
+
+<file path="app.config.ts">
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { routes } from './app.routes';
+import { authInterceptor } from './auth.interceptor';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([authInterceptor])),
+  ],
+};
+</file>
+
+<file path="app.routes.ts">
+import { Routes } from '@angular/router';
+import { Register } from './pages/register';
+import { Login } from './pages/login';
+import { Dashboard } from './pages/dashboard';
+import { authGuard } from './auth.guard';
+import { DetailsComponent } from './pages/details/details.component';
+
+export const routes: Routes = [
+  { path: 'register', component: Register },
+  { path: 'login', component: Login },
+  { path: 'dashboard', component: Dashboard, canActivate: [authGuard] },
+  { path: 'details/:id', component: DetailsComponent, canActivate: [authGuard] },
+  { path: '**', redirectTo: 'login' },
+];
+</file>
+
+<file path="application.service.ts">
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
+import { Application } from './application';
+
+@Injectable({ providedIn: 'root' })
+export class ApplicationService {
+  private http = inject(HttpClient);
+
+  getAll(): Observable<Application[]> {
+    return this.http
+      .get<any>('/api/applications')
+      .pipe(map((r) => (Array.isArray(r) ? r : r.member ?? r['hydra:member'] ?? []) as Application[]));
+  }
+}
+</file>
+
+<file path="application.ts">
+export interface Application {
+  id: number;
+  company: string;
+  jobTitle: string;
+  status: string;
+  applyDate: string;
+}
+</file>
+
+<file path="auth.guard.ts">
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from './auth.service';
+
+export const authGuard: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+
+  return auth.isLoggedIn() || router.parseUrl('/login');
+};
+</file>
+
+<file path="auth.interceptor.ts">
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { AuthService } from './auth.service';
+
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const token = inject(AuthService).getToken();
+  const isPublic = req.url === '/auth' || req.url === '/api/register';
+
+  if (!token || isPublic) {
+    return next(req);
+  }
+
+  return next(req.clone({ setHeaders: { Authorization: `Bearer ${token}` } }));
+};
+</file>
+
+<file path="auth.service.ts">
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class AuthService {
+  constructor(private http: HttpClient) {}
+
+    register(data: { firstname: string; lastname: string; email: string; password: string }) {
+    return this.http.post('/api/register', {
+      firstname: data.firstname,
+      lastname: data.lastname,
+      email: data.email,
+      plainPassword: data.password,
+    });
+  }
+
+  login(email: string, password: string) {
+    return this.http
+      .post<{ token: string }>('/auth', { email, password })
+      .pipe(tap((res) => localStorage.setItem('token', res.token)));
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+  }
+
+  getToken() {
+    return localStorage.getItem('token');
+  }
+
+  isLoggedIn() {
+    return !!this.getToken();
+  }
+}
+</file>
+
+</files>

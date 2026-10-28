@@ -5,6 +5,10 @@ export interface Application {
     description: string | null;
     company: Company;
     offer: Offer | null;
+    applicationMethod: string | null;
+    status: string | null;
+    reminders?: Reminder[];
+    applicationsStatus?: ApplicationStatus[];
 }
 
 export interface Company {
@@ -14,23 +18,23 @@ export interface Company {
 }
 
 export interface Offer {
-    id: number,
-    jobTitle: string,
-    description: string,
-    contractType: string,
-    publicationDate: Date,
-    expirationDate: Date,
-    url: string
+    id?: number;
+    jobTitle: string;
+    description: string;
+    contractType: string | null;
+    publicationDate: string;
+    expirationDate: string | null;
+    url?: string | null;
 }
 
-export interface Status {
-    id: number,
-    label: string
+export interface Reminder {
+    id: number;
+    label: string;
+    date: string;
 }
 
-export interface StatusApplication {
-    id: number,
-    updateDate: Date,
-    application: Application,
-    status: Status
+export interface ApplicationStatus {
+    id: number;
+    updateDate: string;
+    status: { label: string };
 }

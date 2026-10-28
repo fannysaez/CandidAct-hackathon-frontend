@@ -1,31 +1,14 @@
-<div class="container my-4">
-    <!-- <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
-        <div class="d-flex justify-content-between align-items-center">
-            
-            <button class="btn p-0 border-0 text-primary" type="button" aria-label="Dérouler la description">
-                <i class="bi bi-chevron-down fs-5" style="color: var(--color-french-blue);"></i>
-            </button>
-        </div>
-    </div> -->
-
-    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
-        <h3 class="h6 fw-bold mb-4" style="color: var(--color-french-blue); letter-spacing: 0.5px;">DESCRIPTION DE
-            L’OFFRE</h3>
-        <h3 class="h6 fw-bold mb-0" style="color: var(--color-french-blue); letter-spacing: 0.5px;">
-
-        </h3>
-        <div class="p-4 mb-3 text-start rounded-3"
-            style="background-color: #F8F9FA; border: 1.5px dashed var(--color-alabaster-grey);">
-            <p class="mb-0 text-dark" style="line-height: 1.6; font-size: 0.95rem;">
-                {{application.offer?.description}}
-            </p>
-        </div>
-
-        <div class="text-center">
-            <a href="{{application.offer?.url?}}" class="fw-bold text-decoration-none"
-                style="color: var(--color-sea-green); font-size: 0.95rem;">
-                Voir l’offre originale
-            </a>
-        </div>
-    </div>
+<div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+  <p class="small fw-bold text-uppercase mb-3" style="color: var(--color-french-blue)">Description de l’offre</p>
+  <div class="bg-light rounded-3 p-3 mb-3" style="border: 1.5px dashed var(--color-alabaster-grey)">
+    <p class="mb-0 small">{{ application().offer?.description }}</p>
+  </div>
+  @if (application().offer?.url) {
+  <div class="text-center">
+    <a [href]="application().offer?.url" class="fw-bold small text-decoration-none"
+      style="color: var(--color-french-blue)">
+      Voir l’offre originale
+    </a>
+  </div>
+  }
 </div>
