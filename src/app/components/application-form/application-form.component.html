@@ -112,6 +112,17 @@
             </div>
 
             <div class="form-modal__field">
+                <label for="offerUrl">Lien de l'offre</label>
+                <input id="offerUrl" type="url" class="form-control" formControlName="url" placeholder="https://..." />
+
+                @if (offerForm.controls.url.touched && offerForm.controls.url.invalid) {
+                <small class="field-error">
+                    Saisis une URL valide commençant par http:// ou https://.
+                </small>
+                }
+            </div>
+
+            <div class="form-modal__field">
                 <label for="publicationDate">Date de publication *</label>
                 <input id="publicationDate" type="date" class="form-control" formControlName="publicationDate" />
                 @if (offerForm.controls.publicationDate.touched && offerForm.controls.publicationDate.invalid) {

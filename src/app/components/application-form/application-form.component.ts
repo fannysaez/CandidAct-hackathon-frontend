@@ -1,4 +1,3 @@
-
 import {
   Component,
   EventEmitter,
@@ -17,7 +16,11 @@ import { FormModalComponent } from '../form-modal/form-modal.component';
 import { StepperComponent } from '../stepper/stepper.component';
 import { CompanyService } from '../../services/company.service';
 import { ApplicationMethodService } from '../../services/application-method.service';
-import { ApplicationService, CreatedApplication } from '../../application.service';
+import {
+  ApplicationService,
+  CreatedApplication,
+  CreateApplicationPayload,
+} from '../../application.service';
 import { Company, ApplicationMethod } from '../../types/application';
 
 @Component({
@@ -67,6 +70,7 @@ export class ApplicationFormComponent implements OnInit {
     description: ['', Validators.required],
     publicationDate: ['', Validators.required],
     expirationDate: [''],
+    url: ['', Validators.pattern(/^https?:\/\/.+/i)],
   });
 
   get modalTitle(): string {
@@ -166,19 +170,6 @@ export class ApplicationFormComponent implements OnInit {
       return;
     }
 
-    // Le parcours avec offre sera branché séparément.
-    if (this.currentStep === 2 && this.addingOffer) {
-      this.offerForm.markAllAsTouched();
-
-      if (this.offerForm.invalid) {
-        return;
-      }
-
-      this.errorMessage =
-        "L'enregistrement avec une offre n'est pas encore connecté au backend.";
-      return;
-    }
-
     const value = this.form.getRawValue();
     const companyId = Number(value.companyId);
     const methodId = value.applicationMethodId
@@ -187,6 +178,7 @@ export class ApplicationFormComponent implements OnInit {
 
     if (!Number.isInteger(companyId) || companyId <= 0) {
       this.errorMessage = 'Sélectionne une entreprise valide.';
+      this.currentStep = 1;
       return;
     }
 
@@ -195,30 +187,62 @@ export class ApplicationFormComponent implements OnInit {
       (!Number.isInteger(methodId) || methodId <= 0)
     ) {
       this.errorMessage = 'Sélectionne une méthode de candidature valide.';
+      this.currentStep = 1;
       return;
+    }
+
+    const payload: CreateApplicationPayload = {
+      label: value.label!.trim(),
+      applyDate: value.applyDate!,
+      companyId,
+      applicationMethodId: methodId,
+      description: value.description?.trim() || null,
+    };
+
+    if (this.currentStep === 2 && this.addingOffer) {
+      this.offerForm.markAllAsTouched();
+
+      if (this.offerForm.invalid) {
+        return;
+      }
+
+      const offerValue = this.offerForm.getRawValue();
+      const publicationDate = offerValue.publicationDate!;
+      const expirationDate = offerValue.expirationDate || null;
+      const url = offerValue.url?.trim() || null;
+
+      if (
+        expirationDate &&
+        expirationDate < publicationDate
+      ) {
+        this.errorMessage =
+          'La date d’expiration doit être postérieure ou égale à la date de publication.';
+        return;
+      }
+
+      payload.offer = {
+        jobTitle: offerValue.jobTitle!.trim(),
+        contractType: offerValue.contractType?.trim() || null,
+        description: offerValue.description!.trim(),
+        publicationDate,
+        expirationDate,
+        url,
+      };
     }
 
     this.loading = true;
 
-    this.applicationService
-      .create({
-        label: value.label!.trim(),
-        applyDate: value.applyDate!,
-        companyId,
-        applicationMethodId: methodId,
-        description: value.description?.trim() || null,
-      })
-      .subscribe({
-        next: (created) => {
-          this.loading = false;
-          this.created.emit(created);
-          this.closed.emit();
-        },
-        error: (error: HttpErrorResponse) => {
-          this.loading = false;
-          this.errorMessage = this.getErrorMessage(error);
-        },
-      });
+    this.applicationService.create(payload).subscribe({
+      next: (created) => {
+        this.loading = false;
+        this.created.emit(created);
+        this.closed.emit();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading = false;
+        this.errorMessage = this.getErrorMessage(error);
+      },
+    });
   }
 
   private getErrorMessage(error: HttpErrorResponse): string {
