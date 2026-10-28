@@ -1,0 +1,22 @@
+<div class="container my-4">
+    <!-- Bloc Historique -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+        <h3 class="h6 fw-bold mb-4" style="color: var(--color-french-blue); letter-spacing: 0.5px;">
+            HISTORIQUE
+        </h3>
+
+        <!-- Timeline / Chronologie -->
+        <div class="timeline position-relative ps-4">
+            <ul class="list-unstyled mb-0">
+                @for (item of history(); track item.id; let i = $index) {
+                <li class="py-1">
+                    <i class="bi bi-pin-angle-fill"></i>
+                    {{ item.status.label }} le {{ item.updateDate | date:'dd/MM/yyyy' }}
+                </li>
+                } @empty {
+                <li class="text-muted">Aucun statut pour le moment</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
