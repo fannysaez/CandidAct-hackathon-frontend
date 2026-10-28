@@ -1,0 +1,22 @@
+<div class="bg-white border border-dark rounded-3 p-3">
+  <h2 class="fs-6 text-center text-uppercase mb-3" style="color: var(--color-french-blue)">Statistiques</h2>
+
+  @if (loading) {
+  <div class="text-center py-4">
+    <div class="spinner-border spinner-border-sm" role="status"></div>
+  </div>
+  } @else if (error) {
+  <p class="text-center text-muted small mb-0">Statistiques indisponibles pour le moment.</p>
+  } @else {
+  <div class="row g-3">
+    @for (item of items; track item.label) {
+    <div class="col-6 col-lg-12">
+      <div class="rounded-3 text-center px-2 py-3 h-100" style="background: var(--color-alabaster-grey)">
+        <p class="title fs-3 mb-1" style="color: var(--color-french-blue)">{{ item.value }}</p>
+        <p class="fw-bold mb-0">{{ item.label }}</p>
+      </div>
+    </div>
+    }
+  </div>
+  }
+</div>

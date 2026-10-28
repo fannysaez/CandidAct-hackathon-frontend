@@ -6,9 +6,9 @@ export interface Application {
     company: Company;
     offer: Offer | null;
     applicationMethod: string | null;
-    status: Status | null;
+    status: string | null;
     reminders?: Reminder[];
-    applicationStatus?: ApplicationStatus[];
+    applicationsStatus?: ApplicationStatus[];
 }
 
 export interface Company {
@@ -18,28 +18,28 @@ export interface Company {
 }
 
 export interface Offer {
-    id?: number,
-    jobTitle: string,
-    description: string,
-    contractType: string,
-    publicationDate: Date,
-    expirationDate: Date,
-    url: string
-}
-
-export interface Status {
-    id: number,
-    label: string
-}
-
-export interface ApplicationStatus {
-    id: number,
-    updateDate: Date,
-    status: Status
+    id?: number;
+    jobTitle: string;
+    description: string;
+    contractType: string | null;
+    publicationDate: string;
+    expirationDate: string | null;
+    url?: string | null;
 }
 
 export interface Reminder {
-    id: number,
+    id: number;
     label: string;
-    date: Date,
+    date: string;
+}
+
+export interface ApplicationStatus {
+    id: number;
+    updateDate: string;
+    status: { label: string };
+}
+
+export interface ApplicationMethod {
+    id: number;
+    label: string;
 }
