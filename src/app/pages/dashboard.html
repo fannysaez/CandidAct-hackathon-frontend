@@ -19,7 +19,7 @@
     </button>
 
     @if (modalOpen) {
-    <app-application-form (closed)="closeModal()">
+    <app-application-form (closed)="closeModal()" (created)="onApplicationCreated($event)">
     </app-application-form>
     }
 

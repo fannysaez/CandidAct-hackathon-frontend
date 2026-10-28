@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { Application } from '../application';
-import { ApplicationService } from '../application.service';
+import { ApplicationService, CreatedApplication } from '../application.service';
 import { AuthService } from '../auth.service';
 import { ApplicationSearchComponent } from '../components/application-search/application-search.component';
 import { FormModalComponent } from '../components/form-modal/form-modal.component';
@@ -24,6 +24,7 @@ export class Dashboard {
   error = false;
   page = 1;
   pageSize = 5;
+  modalOpen = false;
 
   constructor() {
     this.service.getAll().subscribe({
@@ -39,6 +40,11 @@ export class Dashboard {
         this.loading = false;
       },
     });
+    this.loadApplications();
+  }
+
+  loadApplications(): void {
+    this.error = false;
   }
 
   get displayed(): Application[] {
@@ -68,13 +74,30 @@ export class Dashboard {
     this.router.navigate(['/login']);
   }
 
-  modalOpen = false;
-
   openModal(): void {
     this.modalOpen = true;
   }
 
   closeModal(): void {
     this.modalOpen = false;
+  }
+
+  onApplicationCreated(created: CreatedApplication): void {
+    const application: Application = {
+      id: created.id,
+      company: created.company,
+      jobTitle: created.jobTitle,
+      status: created.status,
+      applyDate: created.applyDate,
+    };
+
+    this.applications = [
+      application,
+      ...this.applications.filter((item) => item.id !== created.id),
+    ];
+
+    this.searchResults = null;
+    this.page = 1;
+    this.closeModal();
   }
 }
