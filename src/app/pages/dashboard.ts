@@ -4,10 +4,11 @@ import { Router, RouterLink } from '@angular/router';
 import { Application } from '../application';
 import { ApplicationService } from '../application.service';
 import { AuthService } from '../auth.service';
+import { ApplicationSearchComponent } from '../components/application-search/application-search.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, DatePipe],
+  imports: [RouterLink, DatePipe, ApplicationSearchComponent],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
