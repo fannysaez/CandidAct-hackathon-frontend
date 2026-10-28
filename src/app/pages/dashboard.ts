@@ -65,4 +65,8 @@ export class Dashboard {
     this.auth.logout();
     this.router.navigate(['/login']);
   }
+
+  details(): void {
+    this.router.navigate(['/details/id']);
+  }
 }
