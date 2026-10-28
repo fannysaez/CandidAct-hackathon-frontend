@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, input, inject } from '@angular/core';
+import { ApplicationDetailsService } from '../../services/application-details.service';
+import { Application, Offer } from '../../types/application';
 
 @Component({
   selector: 'app-offer-card',
@@ -7,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './offer-card.component.css'
 })
 export class OfferCardComponent {
-
+  private service = inject(ApplicationDetailsService);
+  application = input.required<Application>();
+  offer = input.required<Offer>();
 }

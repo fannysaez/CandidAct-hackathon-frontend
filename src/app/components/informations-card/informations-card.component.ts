@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, input, inject } from '@angular/core';
+import { ApplicationDetailsService } from '../../services/application-details.service';
+import { Application } from '../../types/application';
+
 
 @Component({
   selector: 'app-informations-card',
@@ -7,5 +10,6 @@ import { Component } from '@angular/core';
   styleUrl: './informations-card.component.css'
 })
 export class InformationsCardComponent {
-
+  private service = inject(ApplicationDetailsService);
+  application = input.required<Application>();
 }
