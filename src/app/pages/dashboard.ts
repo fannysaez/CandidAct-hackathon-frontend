@@ -77,8 +77,6 @@ export class Dashboard {
     this.router.navigate(['/login']);
   }
 
-  details(): void {
-    this.router.navigate(['/details/id']);
   openModal(): void {
     this.modalOpen = true;
   }

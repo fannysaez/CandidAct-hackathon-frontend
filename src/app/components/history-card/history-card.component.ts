@@ -14,7 +14,7 @@ export class HistoryCardComponent {
   application = input.required<Application>();
 
   history = computed(() =>
-    [...(this.application().applicationStatus ?? [])].sort((a, b) =>
+    [...(this.application().applicationsStatus ?? [])].sort((a, b) =>
       new Date(b.updateDate).getTime() - new Date(a.updateDate).getTime())
   );
 }
