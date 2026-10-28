@@ -5,10 +5,11 @@ import { Application } from '../application';
 import { ApplicationService } from '../application.service';
 import { AuthService } from '../auth.service';
 import { ApplicationSearchComponent } from '../components/application-search/application-search.component';
+import { StatsPanelComponent } from '../components/stats-panel/stats-panel.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, DatePipe, ApplicationSearchComponent],
+  imports: [RouterLink, DatePipe, ApplicationSearchComponent, StatsPanelComponent],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
