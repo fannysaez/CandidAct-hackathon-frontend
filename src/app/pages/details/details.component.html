@@ -1,0 +1,38 @@
+<app-auth-header />
+<div class="container-fluid p-3" style="background: var(--color-alabaster-grey)">
+    <div class="row justify-content-between">
+        <app-application-card />
+    </div>
+    <div class="d-md-none">
+        <app-informations-card />
+    </div>
+    <div class="row justify-content-between">
+        <app-offer-card />
+    </div>
+    <div class="row d-none d-md-flex mx-5 justify-content-between">
+        <div class="col-6">
+            <app-informations-card />
+        </div>
+        <div class="col-6">
+            <app-history-card />
+        </div>
+    </div>
+    <div class="d-md-none">
+        <app-history-card />
+    </div>
+    <div class="bg-white py-4 px-2 shadow-sm">
+        <div class="container d-flex justify-content-center align-items-center gap-3">
+
+            <button type="button" class="col-5 btn  px-4 py-2 m-2 rounded-3 fw-bold"
+                style="color: var(--color-french-blue); border: 2px solid var(--color-french-blue)">
+                Modifier
+            </button>
+
+            <button type="button" class="col-5 btn px-4 py-2 m-2 rounded-3 fw-bold"
+                style="color: white; background: var(--color-french-blue)">
+                Changer le statut
+            </button>
+
+        </div>
+    </div>
+</div>
