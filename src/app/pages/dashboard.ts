@@ -6,10 +6,11 @@ import { ApplicationService } from '../application.service';
 import { AuthService } from '../auth.service';
 import { ApplicationSearchComponent } from '../components/application-search/application-search.component';
 import { StatsPanelComponent } from '../components/stats-panel/stats-panel.component';
+import { AlertsBannerComponent } from '../components/alerts-banner/alerts-banner.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, DatePipe, ApplicationSearchComponent, StatsPanelComponent],
+  imports: [RouterLink, DatePipe, ApplicationSearchComponent, StatsPanelComponent, AlertsBannerComponent],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {

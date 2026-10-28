@@ -1,6 +1,6 @@
 export interface Stats {
   sent: number;
-  pending: number;
-  toRemind: number;
-  total: number;
+  thisWeek: number;
+  interviews: number;
+  reminded: number;
 }

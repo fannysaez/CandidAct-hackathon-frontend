@@ -17,6 +17,7 @@
       </div>
 
       <div class="col-12 col-lg-9">
+        <app-alerts-banner></app-alerts-banner>
         <app-application-search (results)="onResults($event)"></app-application-search>
         @if (loading) {
         <div class="text-center py-5">

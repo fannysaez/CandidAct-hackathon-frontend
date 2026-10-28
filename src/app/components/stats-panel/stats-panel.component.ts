@@ -29,10 +29,10 @@ export class StatsPanelComponent {
 
   get items(): { label: string; value: number }[] {
     return [
-      { label: 'Candidatures réalisées', value: this.stats?.sent ?? 0 },
-      { label: 'Candidatures en attente', value: this.stats?.pending ?? 0 },
-      { label: 'Candidatures à relancer', value: this.stats?.toRemind ?? 0 },
-      { label: 'Candidatures totales', value: this.stats?.total ?? 0 },
+      { label: 'Candidatures envoyées', value: this.stats?.sent ?? 0 },
+      { label: 'Envoyées cette semaine', value: this.stats?.thisWeek ?? 0 },
+      { label: 'Entretiens', value: this.stats?.interviews ?? 0 },
+      { label: 'Candidatures relancées', value: this.stats?.reminded ?? 0 },
     ];
   }
 }
