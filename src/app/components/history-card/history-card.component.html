@@ -1,0 +1,24 @@
+<div class="container my-4">
+    <!-- Bloc Historique -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+        <h3 class="h6 fw-bold mb-4" style="color: var(--color-french-blue); letter-spacing: 0.5px;">
+            HISTORIQUE
+        </h3>
+
+        <!-- Timeline / Chronologie -->
+        <div class="timeline position-relative ps-4">
+            <ul class="list-unstyled mb-0">
+                <!-- On parcourt la collection des statuts -->
+                @for (applicationStatus of application.applicationsStatus; track applicationStatus.id) {
+                <li class="py-1">
+                    <i class="bi bi-pin-angle-fill"></i>
+                    {{ applicationStatus.status.label }} le {{ applicationStatus.updateDate | date:'dd/MM/yyyy' }}
+                </li>
+                } @empty {
+                <!-- Optionnel : affiché s'il n'y a aucun rappel -->
+                <li class="text-muted">Aucun statut pour le moment</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

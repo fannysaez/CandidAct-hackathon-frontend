@@ -1,0 +1,43 @@
+<div class="container my-4">
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+            <div>
+                <h2 class="h4 fw-bold mb-1" style="color: var(--color-black);">{{application.label}}</h2>
+                <p class="text-muted mb-3" style="font-size: 0.95rem;">{{application.company.name}} . <span
+                        class="d-md-none">{{application.company.city}}</span></p>
+            </div>
+            <div>
+                <span class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center gap-1"
+                    style="background-color: rgba(24, 179, 166, 0.25); color: var(--color-sea-green); font-weight: 500;">
+                    <ul class="list-unstyled mb-0">
+                        <!-- On parcourt la collection reminders -->
+                        @for (reminder of application.reminders; track reminder.id) {
+                        <li class="py-1">
+                            <i class="bi bi-pin-angle-fill"></i>
+                            {{ reminder.label }} le {{ reminder.date | date:'dd/MM/yyyy' }}
+                        </li>
+                        } @empty {
+                        <!-- Optionnel : affiché s'il n'y a aucun rappel -->
+                        <li class="text-muted">Aucun rappel pour le moment</li>
+                        }
+                    </ul>
+                </span>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 mt-2">
+            <span class="badge rounded-pill px-3 py-2"
+                style="background-color: var(--color-alabaster-grey); color: var(--color-black); font-weight: 600;">
+                {{application.offer?.contractType?}}
+            </span>
+            <span class="d-none d-md-block badge rounded-pill px-3 py-2"
+                style="background-color: var(--color-french-blue); color: var(--color-white); font-weight: 600;">
+                {{application.company.city}}
+            </span>
+            <span class="badge rounded-pill px-3 py-2 text-white"
+                style="background-color: var(--color-sea-green); font-weight: 600;">
+                {{application.statusApplication?.status?.label}}
+            </span>
+        </div>
+    </div>
+</div>
