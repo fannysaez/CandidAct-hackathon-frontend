@@ -1,0 +1,17 @@
+<input
+  id="application-search"
+  type="search"
+  class="form-control mb-3"
+  style="border: 1.5px solid var(--color-sea-green); border-radius: 0.6rem"
+  placeholder="Rechercher une candidature"
+  [(ngModel)]="searchTerm"
+  (ngModelChange)="onSearch($event)"
+/>
+
+@if (loading) {
+  <p>Recherche en cours...</p>
+}
+
+@if (error) {
+  <p>{{ error }}</p>
+}
