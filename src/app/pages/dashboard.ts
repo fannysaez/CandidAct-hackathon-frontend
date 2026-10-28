@@ -5,10 +5,12 @@ import { Application } from '../application';
 import { ApplicationService } from '../application.service';
 import { AuthService } from '../auth.service';
 import { ApplicationSearchComponent } from '../components/application-search/application-search.component';
+import { FormModalComponent } from '../components/form-modal/form-modal.component';
+import { ApplicationFormComponent } from '../components/application-form/application-form.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, DatePipe, ApplicationSearchComponent],
+  imports: [RouterLink, DatePipe, ApplicationSearchComponent, FormModalComponent, ApplicationFormComponent],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
@@ -64,5 +66,15 @@ export class Dashboard {
   logout(): void {
     this.auth.logout();
     this.router.navigate(['/login']);
+  }
+
+  modalOpen = false;
+
+  openModal(): void {
+    this.modalOpen = true;
+  }
+
+  closeModal(): void {
+    this.modalOpen = false;
   }
 }
