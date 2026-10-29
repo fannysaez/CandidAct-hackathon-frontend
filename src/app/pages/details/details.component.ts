@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink, ActivatedRoute } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of, switchMap } from 'rxjs';
 import { AuthHeader } from '../auth-header';
@@ -8,20 +8,7 @@ import { OfferCardComponent } from '../../components/offer-card/offer-card.compo
 import { ApplicationCardComponent } from '../../components/application-card/application-card.component';
 import { InformationsCardComponent } from '../../components/informations-card/informations-card.component';
 import { ApplicationDetailsService } from '../../services/application-details.service';
-import { Application } from '../../types/application';
-import { DatePipe } from '@angular/common';
-
-
-// const EMPTY_APPLICATION: Application = {
-//   id: 0,
-//   label: '',
-//   applyDate: '',
-//   description: null,
-//   company: { id: 0, name: '', city: '' },
-//   offer: null,
-//   applicationMethod: null,
-//   status: null,
-// };
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-details',
@@ -30,7 +17,8 @@ import { DatePipe } from '@angular/common';
     ApplicationCardComponent,
     OfferCardComponent,
     HistoryCardComponent,
-    InformationsCardComponent
+    InformationsCardComponent,
+    RouterLink
   ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css'
@@ -38,6 +26,8 @@ import { DatePipe } from '@angular/common';
 export class DetailsComponent {
   private service = inject(ApplicationDetailsService);
   private route = inject(ActivatedRoute);
+  private auth = inject(AuthService);
+  private router = inject(Router);
 
   application = toSignal(
     this.route.paramMap.pipe(
@@ -48,4 +38,9 @@ export class DetailsComponent {
       )
     ),
   );
+
+  logout(): void {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
 }
