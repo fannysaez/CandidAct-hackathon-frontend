@@ -5,8 +5,5 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
 })
-export class AppComponent {
-  title = 'CandidAct-hackathon-frontend';
-}
+export class AppComponent {}

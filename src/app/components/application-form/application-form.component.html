@@ -1,0 +1,164 @@
+<app-form-modal [title]="modalTitle" (closed)="close()">
+    <h2 id="form-modal-title" class="form-modal__title">
+        {{ modalTitle }}
+    </h2>
+
+    <app-stepper [currentStep]="currentStep" [showOfferStep]="addingOffer" />
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        @if (currentStep === 1) {
+        <div class="application-form__grid">
+            <div class="application-form__main-fields">
+                <div class="form-modal__field">
+                    <label for="label">Intitulé du poste *</label>
+                    <input id="label" type="text" class="form-control" formControlName="label"
+                        placeholder="Ex. Développeur Angular" />
+
+                    @if (form.controls.label.touched && form.controls.label.invalid) {
+                    <small class="field-error">L'intitulé du poste est obligatoire.</small>
+                    }
+                </div>
+
+                <div class="form-modal__field">
+                    <label for="companyId">Entreprise *</label>
+                    <select id="companyId" class="form-select" formControlName="companyId" (change)="onCompanyChange()">
+                        <option value="">Sélectionner une entreprise</option>
+
+                        @for (company of companies; track company.id) {
+                        <option [value]="company.id">
+                            {{ company.name }}
+                        </option>
+                        }
+                    </select>
+
+                    @if (form.controls.companyId.touched && form.controls.companyId.invalid) {
+                    <small class="field-error">Sélectionne une entreprise.</small>
+                    }
+                </div>
+
+                <div class="col-md-12 form-modal__field">
+                    <label for="city">Ville</label>
+                    <input id="city" type="text" class="form-control" formControlName="city"
+                        placeholder="Ville de l'entreprise" />
+                </div>
+
+                <div class="form-modal__field">
+                    <label for="applyDate">Date de candidature *</label>
+                    <input id="applyDate" type="date" class="form-control" formControlName="applyDate" />
+
+                    @if (form.controls.applyDate.touched && form.controls.applyDate.invalid) {
+                    <small class="field-error">Sélectionne une date de candidature.</small>
+                    }
+                </div>
+            </div>
+
+            <div class="application-form__side-fields">
+                <div class="form-modal__field">
+                    <label for="applicationMethodId">Méthode de candidature</label>
+                    <select id="applicationMethodId" class="form-select" formControlName="applicationMethodId">
+                        <option value="">
+                            {{ loadingMethods ? 'Chargement...' : 'Sélectionner une méthode' }}
+                        </option>
+
+                        @for (method of applicationMethods; track method.id) {
+                        <option [value]="method.id">
+                            {{ method.label }}
+                        </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-modal__field application-form__description">
+                    <label for="description">Description ou notes</label>
+                    <textarea id="description" class="form-control" formControlName="description" rows="6"
+                        placeholder="Ajoute des informations complémentaires..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        @if (errorMessage) {
+        <div class="alert alert-danger mt-3" role="alert">
+            {{ errorMessage }}
+        </div>
+        }
+
+        <div class="form-modal__footer">
+            <button type="button" class="btn btn-outline-secondary" (click)="close()" [disabled]="loading">
+                Annuler
+            </button>
+
+            <button type="button" class="btn btn-outline-primary" (click)="submit()" [disabled]="loading">
+                Enregistrer sans offre
+            </button>
+
+            <button type="button" class="btn btn-primary" (click)="nextStep()" [disabled]="loading">
+                Ajouter une offre →
+            </button>
+        </div>
+        } @else {
+        <div class="application-form__offer-grid" [formGroup]="offerForm">
+            <div class="form-modal__field">
+                <label for="jobTitle">Intitulé du poste *</label>
+                <input id="jobTitle" type="text" class="form-control" formControlName="jobTitle" />
+                @if (offerForm.controls.jobTitle.touched && offerForm.controls.jobTitle.invalid) {
+                <small class="field-error">L'intitulé du poste est obligatoire.</small>
+                }
+            </div>
+
+            <div class="form-modal__field">
+                <label for="contractType">Type de contrat</label>
+                <input id="contractType" type="text" class="form-control" formControlName="contractType"
+                    placeholder="Ex. CDI, CDD, alternance" />
+            </div>
+
+            <div class="form-modal__field">
+                <label for="offerUrl">Lien de l'offre</label>
+                <input id="offerUrl" type="url" class="form-control" formControlName="url" placeholder="https://..." />
+
+                @if (offerForm.controls.url.touched && offerForm.controls.url.invalid) {
+                <small class="field-error">
+                    Saisis une URL valide commençant par http:// ou https://.
+                </small>
+                }
+            </div>
+
+            <div class="form-modal__field">
+                <label for="publicationDate">Date de publication *</label>
+                <input id="publicationDate" type="date" class="form-control" formControlName="publicationDate" />
+                @if (offerForm.controls.publicationDate.touched && offerForm.controls.publicationDate.invalid) {
+                <small class="field-error">Sélectionne une date de publication.</small>
+                }
+            </div>
+
+            <div class="form-modal__field">
+                <label for="expirationDate">Date d'expiration</label>
+                <input id="expirationDate" type="date" class="form-control" formControlName="expirationDate" />
+            </div>
+
+            <div class="form-modal__field application-form__offer-description">
+                <label for="offerDescription">Description de l'offre *</label>
+                <textarea id="offerDescription" class="form-control" formControlName="description" rows="6"></textarea>
+                @if (offerForm.controls.description.touched && offerForm.controls.description.invalid) {
+                <small class="field-error">La description de l'offre est obligatoire.</small>
+                }
+            </div>
+        </div>
+
+        @if (errorMessage) {
+        <div class="alert alert-danger mt-3" role="alert">
+            {{ errorMessage }}
+        </div>
+        }
+
+        <div class="form-modal__footer">
+            <button type="button" class="btn btn-outline-secondary" (click)="previousStep()" [disabled]="loading">
+                ← Retour
+            </button>
+
+            <button type="submit" class="btn btn-primary" [disabled]="loading">
+                {{ loading ? 'Enregistrement...' : 'Enregistrer candidature et offre' }}
+            </button>
+        </div>
+        }
+    </form>
+</app-form-modal>

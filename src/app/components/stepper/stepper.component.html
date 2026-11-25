@@ -1,0 +1,23 @@
+<div class="stepper" aria-label="Progression du formulaire">
+    @for (step of steps; track step.number) {
+    <div class="stepper__item" [class.stepper__item--active]="currentStep === step.number"
+        [class.stepper__item--completed]="currentStep > step.number">
+        <div class="stepper__circle">
+            @if (currentStep > step.number) {
+            ✓
+            } @else {
+            {{ step.number }}
+            }
+        </div>
+
+        <span class="stepper__label">
+            {{ step.label }}
+        </span>
+    </div>
+
+    @if (step.number < steps.length) { <div class="stepper__line"
+        [class.stepper__line--completed]="currentStep > step.number">
+</div>
+}
+}
+</div>

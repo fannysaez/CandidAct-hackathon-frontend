@@ -1,0 +1,10 @@
+<div class="form-modal-overlay" (click)="close()">
+    <section class="form-modal" role="dialog" aria-modal="true" aria-labelledby="form-modal-title"
+        (click)="$event.stopPropagation()">
+        <button type="button" class="form-modal__close" aria-label="Fermer la fenêtre" (click)="close()">
+            &times;
+        </button>
+
+        <ng-content></ng-content>
+    </section>
+</div>

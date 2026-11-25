@@ -1,0 +1,17 @@
+:host {
+    display: block;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-modal__footer .btn {
+    min-width: 100px;
+    font-size: 13px;
+}
+
+.form-modal__field small {
+    font-size: 11px;
+}

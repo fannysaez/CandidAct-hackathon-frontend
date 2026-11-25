@@ -1,0 +1,42 @@
+<h2 class="fs-6 text-uppercase mb-2" style="color: var(--color-french-blue)">Vos rappels</h2>
+
+<div class="bg-white rounded-3 px-4 py-2 mb-4">
+  @if (loading) {
+  <div class="text-center py-3">
+    <div class="spinner-border spinner-border-sm" role="status"></div>
+  </div>
+  } @else if (error) {
+  <p class="text-center text-muted small my-3">Rappels indisponibles pour le moment.</p>
+  } @else {
+  @for (alert of displayed; track alert.applicationId) {
+  <a class="d-flex flex-wrap justify-content-between align-items-center gap-2 py-3 text-decoration-none text-reset"
+    [routerLink]="['/details', alert.applicationId]">
+    <span class="small fw-bold">
+      {{ alert.jobTitle }} - <span style="color: var(--color-french-blue)">{{ alert.company }}</span>
+    </span>
+    <span class="small fw-bold">
+      @if (alert.overdueDays > 0) {
+      En retard de {{ alert.overdueDays }} {{ alert.overdueDays > 1 ? 'jours' : 'jour' }}
+      } @else {
+      <span style="color: var(--color-french-blue)">Expire le :</span> {{ alert.dueDate | date: 'dd/MM/yyyy' }}
+      }
+    </span>
+    <span class="badge rounded-pill px-3"
+      [style.background]="alert.overdueDays > 0 ? 'var(--color-french-blue)' : 'var(--color-sea-green)'">
+      {{ alert.action }}
+    </span>
+  </a>
+  } @empty {
+  <p class="text-center text-muted small my-3">Aucune action à mener</p>
+  }
+
+  @if (alerts.length > limit) {
+  <div class="text-center pb-2">
+    <button type="button" class="btn btn-link btn-sm text-decoration-none"
+      style="color: var(--color-french-blue)" (click)="showAll = !showAll">
+      {{ showAll ? 'Voir moins' : 'Voir toutes les alertes (' + alerts.length + ')' }}
+    </button>
+  </div>
+  }
+  }
+</div>
