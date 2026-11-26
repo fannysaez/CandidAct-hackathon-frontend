@@ -51,5 +51,5 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Se connecter en SSH
+      - name: Connexion en SSH
         run: ssh -o StrictHostKeyChecking=accept-new ${{ secrets.USER_SERVER }}@${{ secrets.IP_SERVER }}
