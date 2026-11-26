@@ -38,5 +38,16 @@ jobs:
           path: dist/*/browser
           if-no-files-found: error
   
-  # deploy:
-  #   needs: build
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent-action@v0.7.0
+        with:
+          ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
+
+      - name: Se connecter en SSH
+        run : ssh ${{secrets.USER_SERVER}}@{{secrets.IP_SERVER}}
