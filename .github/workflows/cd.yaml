@@ -38,5 +38,5 @@ jobs:
           path: dist/*/browser
           if-no-files-found: error
   
-  deploy:
-    needs: build
+  # deploy:
+  #   needs: build
