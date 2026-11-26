@@ -24,7 +24,7 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: Installer les dépendances
+      - name: Installation des dépendances
         run: npm ci
 
       - name: Build
