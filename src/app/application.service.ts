@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Application } from './application';
+import { API_URL } from './api_url';
 
 export interface CreateOfferPayload {
   jobTitle: string;
@@ -43,13 +44,13 @@ export class ApplicationService {
 
   getAll(): Observable<Application[]> {
     return this.http
-      .get<any>('/api/applications')
+      .get<any>(`${API_URL}/api/applications`)
       .pipe(map((r) => (Array.isArray(r) ? r : r.member ?? r['hydra:member'] ?? []) as Application[]));
   }
 
   create(payload: CreateApplicationPayload): Observable<CreatedApplication> {
     return this.http.post<CreatedApplication>(
-      '/api/applications',
+      `${API_URL}/api/applications`,
       payload
     );
   }

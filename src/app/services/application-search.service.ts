@@ -2,13 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Application } from '../application';
+import { API_URL } from '../api_url';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApplicationSearchService {
   private http = inject(HttpClient);
-  private readonly apiUrl = '/api/applications';
+  private readonly apiUrl = `${API_URL}/api/applications`;
 
   searchApplications(term: string): Observable<Application[]> {
     const params = new HttpParams().set('search', term);
